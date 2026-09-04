@@ -6,7 +6,18 @@ const getSettings = async (req, res) => {
   try {
     if (getMongoStatus()) {
       let settings = await Settings.findOne();
-      if (!settings) settings = await Settings.create({});
+      if (!settings) {
+        settings = await Settings.create({});
+      } else if (
+        !settings.founderName ||
+        settings.founderName === 'Mahalaxmi Management' ||
+        settings.founderName === 'Mahalaxmi Property Founder' ||
+        settings.founderName === 'Mr. Rakesh Sharma'
+      ) {
+        settings.founderName = 'Mr. Ishwar Singh Rathour';
+        settings.founderTitle = 'Director and Founder';
+        await settings.save();
+      }
       return res.json({ success: true, data: settings });
     }
 

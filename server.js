@@ -34,6 +34,8 @@ const defaultOrigins = [
   'http://localhost:3000',
   'http://localhost:5000',
   'http://localhost:5001',
+  'https://mahalaxmipropertiesindia.com',
+  'https://www.mahalaxmipropertiesindia.com',
   'https://mahalaxmiproperty.in',
   'https://www.mahalaxmiproperty.in',
 ];

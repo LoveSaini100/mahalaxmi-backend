@@ -24,15 +24,15 @@ const settingsSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      default: 'info@mahalaxmiproperty.in',
+      default: 'sales@mahalaxmipropertiesindia.com',
     },
     founderName: {
       type: String,
-      default: 'Mahalaxmi Property Founder',
+      default: 'Mr. Ishwar Singh Rathour',
     },
     founderTitle: {
       type: String,
-      default: 'Founder & Managing Director',
+      default: 'Director and Founder',
     },
     founderMessage: {
       type: String,
@@ -44,11 +44,11 @@ const settingsSchema = new mongoose.Schema(
     },
     seoTitle: {
       type: String,
-      default: 'Mahalaxmi Property - Premium Real Estate in Biharigarh & Saharanpur',
+      default: 'Best Property Dealer in Biharigarh | Mahalaxmi Property - Top Property Advisor in Saharanpur',
     },
     seoDescription: {
       type: String,
-      default: 'Discover premium properties, plots, commercial land, and residential homes with Mahalaxmi Property near Dehradun-Saharanpur Highway, Biharigarh.',
+      default: 'Mahalaxmi Property is the best property dealer and trusted real estate advisor in Biharigarh, Chutmalpur, Gagalheri, Behat & Saharanpur. Buy residential plots, commercial land, and farmhouses along Dehradun Highway NH-307.',
     },
     socialLinks: {
       facebook: { type: String, default: '#' },

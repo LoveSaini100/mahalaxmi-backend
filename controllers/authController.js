@@ -25,7 +25,7 @@ const loginAdmin = async (req, res) => {
     const cleanEmail = email.toLowerCase().trim();
 
     const isDefaultCredentials =
-      (cleanEmail === 'admin@mahalaxmiproperty.in' || cleanEmail === 'admin@mahalaxmiproperty.com') &&
+      (cleanEmail === 'admin@mahalaxmipropertiesindia.com' || cleanEmail === 'admin@mahalaxmiproperty.in' || cleanEmail === 'admin@mahalaxmiproperty.com') &&
       (password === 'mahalaxmi@123456' || password === 'Admin@123456');
 
     // Check if Mongo is connected
