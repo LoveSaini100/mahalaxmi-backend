@@ -14,7 +14,7 @@ const memoryStore = {
   admin: {
     _id: 'admin-mem-id-001',
     name: 'Mahalaxmi Admin',
-    email: 'admin@mahalaxmiproperty.com',
+    email: 'admin@mahalaxmiproperty.in',
     role: 'admin',
   },
   properties: [
