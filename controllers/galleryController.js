@@ -3,6 +3,13 @@ const { getMongoStatus } = require('../config/db');
 const memoryStore = require('../utils/memoryStore');
 const { deletePhysicalFile } = require('../utils/fileHelper');
 
+const formatGalleryFile = (file) => {
+  if (file.buffer) {
+    return `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+  }
+  return `/uploads/gallery/${file.filename}`;
+};
+
 // GET /api/gallery
 const getGalleryItems = async (req, res) => {
   try {
@@ -24,7 +31,7 @@ const createGalleryItem = async (req, res) => {
 
     // Handle file upload if multipart image file is uploaded
     if (req.file) {
-      url = `/uploads/gallery/${req.file.filename}`;
+      url = formatGalleryFile(req.file);
     }
 
     if (!title || !url) {
@@ -63,7 +70,7 @@ const updateGalleryItem = async (req, res) => {
     let { title, url, category, description } = req.body;
 
     if (req.file) {
-      url = `/uploads/gallery/${req.file.filename}`;
+      url = formatGalleryFile(req.file);
     }
 
     if (getMongoStatus()) {

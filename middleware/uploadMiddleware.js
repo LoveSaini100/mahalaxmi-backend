@@ -21,29 +21,35 @@ try {
   console.warn('Gallery upload directory check:', err.message);
 }
 
-// Storage for Property Images -> uploads/properties/
-const propertiesStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, propertiesUploadDir);
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const uniqueSuffix = `property-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-    cb(null, `${uniqueSuffix}${ext}`);
-  },
-});
+const isVercel = Boolean(process.env.VERCEL);
 
-// Storage for Gallery Images -> uploads/gallery/
-const galleryStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, galleryUploadDir);
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const uniqueSuffix = `gallery-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-    cb(null, `${uniqueSuffix}${ext}`);
-  },
-});
+// Storage for Property Images -> uploads/properties/ (or MemoryStorage for Vercel)
+const propertiesStorage = isVercel
+  ? multer.memoryStorage()
+  : multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, propertiesUploadDir);
+      },
+      filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const uniqueSuffix = `property-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+        cb(null, `${uniqueSuffix}${ext}`);
+      },
+    });
+
+// Storage for Gallery Images -> uploads/gallery/ (or MemoryStorage for Vercel)
+const galleryStorage = isVercel
+  ? multer.memoryStorage()
+  : multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, galleryUploadDir);
+      },
+      filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const uniqueSuffix = `gallery-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+        cb(null, `${uniqueSuffix}${ext}`);
+      },
+    });
 
 // File Filter for Image Type Validation
 const fileFilter = (req, file, cb) => {

@@ -4,6 +4,14 @@ const { deletePhysicalFile, deleteMultipleFiles } = require('../utils/fileHelper
 const { getMongoStatus } = require('../config/db');
 const memoryStore = require('../utils/memoryStore');
 
+// Helper to format uploaded image file (Disk vs Memory Buffer for Serverless)
+const formatPropertyFile = (file) => {
+  if (file.buffer) {
+    return `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+  }
+  return `/uploads/properties/${file.filename}`;
+};
+
 // Helper to construct slug
 const createUniqueSlug = async (title) => {
   let baseSlug = slugify(title, { lower: true, strict: true });
@@ -194,7 +202,7 @@ const createProperty = async (req, res) => {
     }
 
     if (req.files && req.files.length > 0) {
-      const newImages = req.files.map((file) => `/uploads/properties/${file.filename}`);
+      const newImages = req.files.map(formatPropertyFile);
       propertyData.images = [...(propertyData.images || []), ...newImages].slice(0, 5);
     }
 
@@ -244,7 +252,7 @@ const updateProperty = async (req, res) => {
       }
 
       if (req.files && req.files.length > 0) {
-        const uploadedImages = req.files.map((file) => `/uploads/properties/${file.filename}`);
+        const uploadedImages = req.files.map(formatPropertyFile);
         const currentImages = Array.isArray(updateData.images) ? updateData.images : property.images;
         updateData.images = [...currentImages, ...uploadedImages].slice(0, 5);
       }
@@ -258,7 +266,7 @@ const updateProperty = async (req, res) => {
     if (index === -1) return res.status(404).json({ success: false, message: 'Property not found' });
 
     if (req.files && req.files.length > 0) {
-      const uploadedImages = req.files.map((file) => `/uploads/properties/${file.filename}`);
+      const uploadedImages = req.files.map(formatPropertyFile);
       const currentImages = Array.isArray(updateData.images) ? updateData.images : memoryStore.properties[index].images;
       updateData.images = [...currentImages, ...uploadedImages].slice(0, 5);
     }
