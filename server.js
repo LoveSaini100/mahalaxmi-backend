@@ -107,3 +107,5 @@ app.listen(PORT, () => {
   console.log(` Static Uploads: ${uploadsPath}`);
   console.log(`==================================================`);
 });
+
+module.exports = app;

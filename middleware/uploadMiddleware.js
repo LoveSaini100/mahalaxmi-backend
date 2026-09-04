@@ -6,11 +6,19 @@ const fs = require('fs');
 const propertiesUploadDir = path.join(__dirname, '..', 'uploads', 'properties');
 const galleryUploadDir = path.join(__dirname, '..', 'uploads', 'gallery');
 
-if (!fs.existsSync(propertiesUploadDir)) {
-  fs.mkdirSync(propertiesUploadDir, { recursive: true });
+try {
+  if (!fs.existsSync(propertiesUploadDir)) {
+    fs.mkdirSync(propertiesUploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Properties upload directory check:', err.message);
 }
-if (!fs.existsSync(galleryUploadDir)) {
-  fs.mkdirSync(galleryUploadDir, { recursive: true });
+try {
+  if (!fs.existsSync(galleryUploadDir)) {
+    fs.mkdirSync(galleryUploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Gallery upload directory check:', err.message);
 }
 
 // Storage for Property Images -> uploads/properties/
