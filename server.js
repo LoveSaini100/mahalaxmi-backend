@@ -39,8 +39,13 @@ const allowedOrigins = process.env.CLIENT_URL
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, postman) or if wildcard is configured
-      if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin, matched origins, or any Vercel preview domain
+      if (
+        !origin ||
+        allowedOrigins.includes('*') ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app')
+      ) {
         return callback(null, true);
       }
       return callback(null, true); // Fallback to allow request for production resilience
