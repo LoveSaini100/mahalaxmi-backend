@@ -1,5 +1,6 @@
 const Property = require('../models/Property');
 const slugify = require('slugify');
+const mongoose = require('mongoose');
 const { deletePhysicalFile, deleteMultipleFiles } = require('../utils/fileHelper');
 const { getMongoStatus } = require('../config/db');
 const memoryStore = require('../utils/memoryStore');
@@ -160,9 +161,12 @@ const getPropertyBySlug = async (req, res) => {
     const { slug } = req.params;
 
     if (getMongoStatus()) {
-      let property = await Property.findOne({ slug });
-      if (!property && slug.match(/^[0-9a-fA-F]{24}$/)) {
+      let property = null;
+      if (mongoose.Types.ObjectId.isValid(slug)) {
         property = await Property.findById(slug);
+      }
+      if (!property) {
+        property = await Property.findOne({ slug });
       }
       if (!property) return res.status(404).json({ success: false, message: 'Property not found' });
 

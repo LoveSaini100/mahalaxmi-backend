@@ -14,6 +14,12 @@ connectDB();
 
 const app = express();
 
+// Database connection middleware for Serverless & Express resilience
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 // Security Helmet (configured to allow cross-origin images for static serving)
 app.use(
   helmet({
