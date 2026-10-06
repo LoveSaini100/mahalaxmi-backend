@@ -17,7 +17,5 @@ node_modules/
 Thumbs.db
 
 # User Uploads
-uploads/properties/*
-uploads/gallery/*
-!uploads/properties/.gitkeep
-!uploads/gallery/.gitkeep
+!uploads/
+!uploads/*
