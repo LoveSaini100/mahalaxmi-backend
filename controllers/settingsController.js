@@ -8,15 +8,37 @@ const getSettings = async (req, res) => {
       let settings = await Settings.findOne();
       if (!settings) {
         settings = await Settings.create({});
-      } else if (
-        !settings.founderName ||
-        settings.founderName === 'Mahalaxmi Management' ||
-        settings.founderName === 'Mahalaxmi Property Founder' ||
-        settings.founderName === 'Mr. Rakesh Sharma'
-      ) {
-        settings.founderName = 'Mr. Ishwar Singh Rathour';
-        settings.founderTitle = 'Director and Founder';
-        await settings.save();
+      } else {
+        let changed = false;
+        if (settings.phone !== '+91 75000 87299') {
+          settings.phone = '+91 75000 87299';
+          changed = true;
+        }
+        if (settings.whatsApp !== '+91 75000 87299') {
+          settings.whatsApp = '+91 75000 87299';
+          changed = true;
+        }
+        if (settings.companyName !== 'SHREE MAHALAXMI PROPERTIES AND CONSTRUCTION') {
+          settings.companyName = 'SHREE MAHALAXMI PROPERTIES AND CONSTRUCTION';
+          changed = true;
+        }
+        if (settings.shortName !== 'SMPC') {
+          settings.shortName = 'SMPC';
+          changed = true;
+        }
+        if (
+          !settings.founderName ||
+          settings.founderName === 'Mahalaxmi Management' ||
+          settings.founderName === 'Mahalaxmi Property Founder' ||
+          settings.founderName === 'Mr. Rakesh Sharma'
+        ) {
+          settings.founderName = 'Mr. Ishwar Singh Rathour';
+          settings.founderTitle = 'Director and Founder';
+          changed = true;
+        }
+        if (changed) {
+          await settings.save();
+        }
       }
       return res.json({ success: true, data: settings });
     }

@@ -34,7 +34,7 @@ const loginAdmin = async (req, res) => {
 
       if (!user && isDefaultCredentials) {
         user = await User.create({
-          name: 'Mahalaxmi Admin',
+          name: 'SMPC Admin',
           email: cleanEmail,
           password: password,
           role: 'admin',
@@ -42,14 +42,16 @@ const loginAdmin = async (req, res) => {
       }
 
       if (user && ((await user.matchPassword(password)) || isDefaultCredentials)) {
+        const token = generateToken(user._id);
         return res.json({
           success: true,
+          token: token,
           data: {
             _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
-            token: generateToken(user._id),
+            token: token,
           },
         });
       } else {
@@ -59,21 +61,18 @@ const loginAdmin = async (req, res) => {
 
     // In-Memory Storage Fallback (When MongoDB service is offline)
     if (isDefaultCredentials) {
+      const token = generateToken(memoryStore.admin._id);
       const admin = {
         _id: memoryStore.admin._id,
         name: memoryStore.admin.name,
         email: cleanEmail,
         role: memoryStore.admin.role,
+        token: token,
       };
       return res.json({
         success: true,
-        data: {
-          _id: admin._id,
-          name: admin.name,
-          email: admin.email,
-          role: admin.role,
-          token: generateToken(admin._id),
-        },
+        token: token,
+        data: admin,
       });
     } else {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });

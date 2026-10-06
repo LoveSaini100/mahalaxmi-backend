@@ -23,7 +23,7 @@ const seedData = async () => {
     // Seed Admin User
     const admin = await User.create({
       name: 'Mahalaxmi Admin',
-      email: 'admin@mahalaxmiproperty.in',
+      email: 'admin@mahalaxmipropertiesindia.com',
       password: 'mahalaxmi@123456',
       role: 'admin',
     });

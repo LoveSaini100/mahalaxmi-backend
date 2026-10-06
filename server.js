@@ -6,6 +6,9 @@ const dotenv = require('dotenv');
 const { connectDB } = require('./config/db');
 const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 
+const mongoSanitize = require('express-mongo-sanitize');
+const rateLimit = require('express-rate-limit');
+
 // Load environment variables
 dotenv.config();
 
@@ -20,10 +23,20 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Security Helmet (configured to allow cross-origin images for static serving)
+// Security Helmet (configured to allow cross-origin images and external resources)
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "blob:", "https://images.unsplash.com", "https://*.unsplash.com"],
+        connectSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+      },
+    },
   })
 );
 
@@ -34,6 +47,11 @@ const defaultOrigins = [
   'http://localhost:3000',
   'http://localhost:5000',
   'http://localhost:5001',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5000',
+  'http://127.0.0.1:5001',
   'https://mahalaxmipropertiesindia.com',
   'https://www.mahalaxmipropertiesindia.com',
   'https://mahalaxmiproperty.in',
@@ -47,24 +65,37 @@ const allowedOrigins = process.env.CLIENT_URL
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin, matched origins, or any Vercel preview domain
+      // Allow requests with no origin (mobile apps, curl, serverless) or matched origins
       if (
         !origin ||
         allowedOrigins.includes('*') ||
         allowedOrigins.includes(origin) ||
-        origin.endsWith('.vercel.app')
+        /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
       ) {
         return callback(null, true);
       }
-      return callback(null, true); // Fallback to allow request for production resilience
+      return callback(null, false);
     },
     credentials: true,
   })
 );
 
-// Body Parser Middleware
+// Body Parser Middleware with size limits
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Sanitize data against NoSQL Injection attacks
+app.use(mongoSanitize());
+
+// General API Rate Limiter (100 requests per 15 mins per IP)
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 150,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests from this IP, please try again later.' },
+});
+app.use('/api/', apiLimiter);
 
 // Serve static uploads directory
 const uploadsPath = path.join(__dirname, 'uploads');
@@ -88,16 +119,24 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve Frontend Static Build in Production (if single-server deployment)
-const frontendDistPath = path.join(__dirname, '../dist');
 const fs = require('fs');
+const possibleDistPaths = [
+  path.join(__dirname, '../dist'),
+  path.join(__dirname, 'dist'),
+  path.join(__dirname, '../frontend/dist'),
+  path.join(__dirname, 'public'),
+];
 
-if (process.env.NODE_ENV === 'production' && fs.existsSync(frontendDistPath)) {
-  app.use(express.static(frontendDistPath));
+const activeDistPath = possibleDistPaths.find((p) => fs.existsSync(path.join(p, 'index.html')));
+
+if (activeDistPath) {
+  console.log(`Serving Frontend static build from: ${activeDistPath}`);
+  app.use(express.static(activeDistPath));
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
       return next();
     }
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
+    res.sendFile(path.join(activeDistPath, 'index.html'));
   });
 } else {
   // Root fallback route for standalone API mode

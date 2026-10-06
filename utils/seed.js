@@ -30,10 +30,11 @@ const seedData = async () => {
 
     // 2. Seed Site Settings
     await Settings.create({
-      companyName: 'MAHALAXMI PROPERTY',
+      companyName: 'SHREE MAHALAXMI PROPERTIES AND CONSTRUCTION',
+      shortName: 'SMPC',
       tagline: 'Your Gateway to Dream Homes & Prosperity',
-      phone: '+91 9917970750',
-      whatsApp: '+91 9917970750',
+      phone: '+91 75000 87299',
+      whatsApp: '+91 75000 87299',
       address: 'Near Pencho Restaurant, Dehradun–Saharanpur Highway, Biharigarh, 247662, Saharanpur, Uttar Pradesh',
       email: 'contact@mahalaxmiproperty.com',
       founderName: 'Mr. Rakesh Sharma',

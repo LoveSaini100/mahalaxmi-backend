@@ -1,20 +1,21 @@
 const memoryStore = {
   settings: {
-    siteName: 'MAHALAXMI PROPERTY',
+    siteName: 'SHREE MAHALAXMI PROPERTIES AND CONSTRUCTION',
+    shortName: 'SMPC',
     tagline: 'Your Gateway to Dream Homes & Prosperity',
-    phone: '+91 9917970750',
-    whatsappNumber: '919917970750',
+    phone: '+91 75000 87299',
+    whatsappNumber: '917500087299',
     email: 'sales@mahalaxmipropertiesindia.com',
     address: 'Near Pencho Restaurant, Dehradun–Saharanpur Highway, Biharigarh, 247662, Saharanpur, Uttar Pradesh',
     businessHours: 'Monday - Sunday: 9:00 AM - 8:00 PM',
     founderName: 'Mr. Ishwar Singh Rathour',
     founderTitle: 'Director and Founder',
-    founderMessage: 'At Mahalaxmi Property, our mission is built on absolute transparency, local expertise, and long-term trust. We guide every client towards securing high-value real estate along the booming Saharanpur–Dehradun highway corridor.',
+    founderMessage: 'At Shree Mahalaxmi Properties and Construction (SMPC), our mission is built on absolute transparency, local expertise, and long-term trust. We guide every client towards securing high-value real estate along the booming Saharanpur–Dehradun highway corridor.',
   },
   admin: {
     _id: 'admin-mem-id-001',
-    name: 'Mahalaxmi Admin',
-    email: 'admin@mahalaxmiproperty.in',
+    name: 'SMPC Admin',
+    email: 'admin@mahalaxmipropertiesindia.com',
     role: 'admin',
   },
   properties: [
@@ -171,7 +172,7 @@ const memoryStore = {
       _id: 'test-mem-001',
       name: 'Amit Verma',
       location: 'Dehradun',
-      review: 'Mahalaxmi Property helped me purchase a prime commercial plot in Biharigarh with absolute ease.',
+      review: 'Shree Mahalaxmi Properties and Construction (SMPC) helped me purchase a prime commercial plot in Biharigarh with absolute ease.',
       rating: 5,
     },
     {
@@ -185,7 +186,7 @@ const memoryStore = {
       _id: 'test-mem-003',
       name: 'Vikas Sharma',
       location: 'Haridwar',
-      review: 'Bought a 2 Bigha plot on Dehradun-Saharanpur Highway through Mahalaxmi Property. Very transparent dealing with complete legal paper check.',
+      review: 'Bought a 2 Bigha plot on Dehradun-Saharanpur Highway through Shree Mahalaxmi Properties and Construction (SMPC). Very transparent dealing with complete legal paper check.',
       rating: 5,
     },
     {
@@ -206,7 +207,7 @@ const memoryStore = {
       _id: 'test-mem-006',
       name: 'Sanjay Rastogi',
       location: 'Chandigarh',
-      review: 'Seamless experience purchasing a modern independent villa. Highly recommend Mahalaxmi Property for reliable real estate deals in UP & Uttarakhand.',
+      review: 'Seamless experience purchasing a modern independent villa. Highly recommend Shree Mahalaxmi Properties and Construction (SMPC) for reliable real estate deals in UP & Uttarakhand.',
       rating: 5,
     }
   ],

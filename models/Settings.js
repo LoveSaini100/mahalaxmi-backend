@@ -4,7 +4,11 @@ const settingsSchema = new mongoose.Schema(
   {
     companyName: {
       type: String,
-      default: 'MAHALAXMI PROPERTY',
+      default: 'SHREE MAHALAXMI PROPERTIES AND CONSTRUCTION',
+    },
+    shortName: {
+      type: String,
+      default: 'SMPC',
     },
     tagline: {
       type: String,
@@ -12,11 +16,11 @@ const settingsSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      default: '+91 9917970750',
+      default: '+91 75000 87299',
     },
     whatsApp: {
       type: String,
-      default: '+91 9917970750',
+      default: '+91 75000 87299',
     },
     address: {
       type: String,
@@ -36,7 +40,7 @@ const settingsSchema = new mongoose.Schema(
     },
     founderMessage: {
       type: String,
-      default: 'Welcome to Mahalaxmi Property. Our commitment is founded on trust, absolute transparency, and delivering exceptional value for every client. Whether you are looking for your dream residence, prime commercial space, or high-yield land investments along the Dehradun-Saharanpur corridor, we are dedicated to guiding you through every step of your real estate journey.',
+      default: 'Welcome to Shree Mahalaxmi Properties and Construction (SMPC). Our commitment is founded on trust, absolute transparency, and delivering exceptional value for every client. Whether you are looking for your dream residence, prime commercial space, or high-yield land investments along the Dehradun-Saharanpur corridor, we are dedicated to guiding you through every step of your real estate journey.',
     },
     businessHours: {
       type: String,
@@ -44,11 +48,11 @@ const settingsSchema = new mongoose.Schema(
     },
     seoTitle: {
       type: String,
-      default: 'Best Property Dealer in Biharigarh | Mahalaxmi Property - Top Property Advisor in Saharanpur',
+      default: 'Best Property Dealer in Biharigarh | Shree Mahalaxmi Properties and Construction (SMPC) - Top Property Advisor in Saharanpur',
     },
     seoDescription: {
       type: String,
-      default: 'Mahalaxmi Property is the best property dealer and trusted real estate advisor in Biharigarh, Chutmalpur, Gagalheri, Behat & Saharanpur. Buy residential plots, commercial land, and farmhouses along Dehradun Highway NH-307.',
+      default: 'Shree Mahalaxmi Properties and Construction (SMPC) is the best property dealer and trusted real estate advisor in Biharigarh, Chutmalpur, Gagalheri, Behat & Saharanpur. Buy residential plots, commercial land, and farmhouses along Dehradun Highway NH-307.',
     },
     socialLinks: {
       facebook: { type: String, default: '#' },
